@@ -13,6 +13,7 @@
 #include <string.h>
 #include "kdl_class.h"
 #include "abb_projector/project_srv.h"
+#include "abb_projector/sample_srv.h"
 
 
 #define ROBOTS_DISTANCE 900
@@ -27,7 +28,7 @@ public:
 	void spin(int frequency = 100);
 
     bool callbackProject(abb_projector::project_srv::Request& req, abb_projector::project_srv::Response& res);
-    bool callbackSample(abb_projector::project_srv::Request& req, abb_projector::project_srv::Response& res);
+    bool callbackSample(abb_projector::sample_srv::Request& req, abb_projector::sample_srv::Response& res);
 
 protected:
 	ros::NodeHandle node_handle_;

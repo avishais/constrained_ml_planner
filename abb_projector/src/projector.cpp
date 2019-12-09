@@ -16,6 +16,8 @@ ABB_projector::ABB_projector() : node_handle_("~"), kdl(ROBOTS_DISTANCE, ROD_LEN
 
 bool ABB_projector::callbackProject(abb_projector::project_srv::Request& req, abb_projector::project_srv::Response& res) {
     State q = req.input;
+    printVector(q);
+    
     if (!GD(q))
         return false;
 
@@ -23,7 +25,7 @@ bool ABB_projector::callbackProject(abb_projector::project_srv::Request& req, ab
     return true;
 }
 
-bool ABB_projector::callbackSample(abb_projector::project_srv::Request& req, abb_projector::project_srv::Response& res) {
+bool ABB_projector::callbackSample(abb_projector::sample_srv::Request& req, abb_projector::sample_srv::Response& res) {
     State q = sample_q();
     for (int j = 0; j < q.size(); j++)
         cout << q[j] << " ";
@@ -40,9 +42,6 @@ bool ABB_projector::callbackSample(abb_projector::project_srv::Request& req, abb
 
 // 	// pub_vel_ref_.publish(msg);
 // }
-
-
-
 
 void ABB_projector::spin(int frequency) {
     ros::Rate loop_rate(frequency);

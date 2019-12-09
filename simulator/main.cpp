@@ -44,6 +44,8 @@ double oglm[16];
 bool step_sim = false;
 int sim_velocity;
 
+void execute_path(int);
+
 PQP_REAL R02[3][3],R12[3][3],R22[3][3],T02[3],T12[3],T22[3];
 PQP_REAL R32[3][3],R42[3][3],R52[3][3],T32[3],T42[3],T52[5];
 PQP_REAL R62[3][3],R72[3][3],T62[3],T72[3],T2_t2[3];
@@ -169,6 +171,11 @@ void KeyboardCB(unsigned char key, int x, int y)
 	case '0': rot42 += .1; break;
 	case '-': rot52 += .1; break;
 	case '=': rot62 += .1; break;
+	case 'r':
+		std::cout << "Updating path...\n";
+		step = 0;
+		glutTimerFunc(10,execute_path,0);
+		break;
 	}
 
 	glutPostRedisplay();
@@ -1317,8 +1324,8 @@ void execute_path(int k){
 	//std::cout << "Cong.: " << k << std::endl;
 
 	if(k == 0){
-		const char* rod_pfile = "../rod.txt";
-		const char* robot_pfile = "../samples_ae.txt";
+		const char* rod_pfile = "/home/avishai/catkin_ws/src/ckc_ml_planner/abb_projector/data/rod.txt";
+		const char* robot_pfile = "/home/avishai/catkin_ws/src/ckc_ml_planner/abb_projector/data/samples.txt";
 		FILE *fro, *fr;
 		int i, nlines;
 
@@ -1446,14 +1453,14 @@ void execute_path(int k){
 }
 
 int fake_rod() {
-	const char* robot_pfile = "../samples_ae.txt";
+	const char* robot_pfile = "/home/avishai/catkin_ws/src/ckc_ml_planner/abb_projector/data/samples.txt";
 	FILE *fr = fopen(robot_pfile,"r");
 	int nlines;
 	fscanf(fr,"%i",&nlines);  //NOT include number in line count itself
 	std::cout << "Num: " << nlines << std::endl;
 	fclose(fr);
 
-	const char* rod_pfile = "../rod.txt";
+	const char* rod_pfile = "/home/avishai/catkin_ws/src/ckc_ml_planner/abb_projector/data/rod.txt";
 
 	FILE *f = fopen(rod_pfile, "w");
 

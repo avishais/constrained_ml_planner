@@ -4,6 +4,7 @@ import rospy
 from std_msgs.msg import Float64MultiArray, Float32MultiArray, Int16
 from std_srvs.srv import SetBool, Empty, EmptyResponse
 from autoencoder_projector.srv import autoencoder
+from abb_projector.srv import sample_srv
 import math
 import numpy as np
 from Autoencoder import Autoencoder
@@ -17,6 +18,7 @@ class Spin_ae_proj(Autoencoder):
 
         rospy.Service('/autoencoder/encode', autoencoder, self.encode)
         rospy.Service('/autoencoder/decode', autoencoder, self.decode)
+        rospy.Service('/autoencoder/sample', sample_srv, self.sample_q)
         rospy.init_node('autoencoder_project', anonymous=True)
 
         print('[autoencoder] Ready.')
@@ -32,6 +34,13 @@ class Spin_ae_proj(Autoencoder):
 
     def decode(self, req):
         z = np.array(req.input)
+        x = self.Decode(z)
+        x = self.denormalize(x)
+        
+        return {'output': x}
+
+    def sample_q(self, req):
+        z = self.sample_z()
         x = self.Decode(z)
         x = self.denormalize(x)
         
