@@ -6,41 +6,36 @@ from std_srvs.srv import SetBool, Empty, EmptyResponse
 from autoencoder_projector.srv import autoencoder
 import math
 import numpy as np
-import autoencoder as ae
+from Autoencoder import Autoencoder
 
 np.random.seed(10)
 
-class Spin_ae_proj(ae):
+class Spin_ae_proj(Autoencoder):
 
     def __init__(self):
-        ae.__init__(self)
+        Autoencoder.__init__(self)
 
         rospy.Service('/autoencoder/encode', autoencoder, self.encode)
         rospy.Service('/autoencoder/decode', autoencoder, self.decode)
         rospy.init_node('autoencoder_project', anonymous=True)
 
-        self.load_model()
         print('[autoencoder] Ready.')
 
         rospy.spin()
 
-    def load_model(self):
-        pass
-
-
-
     def encode(self, req):
-        X = np.array([0,0])
-
+        x = np.array(req.input)
+        x = self.normalize(x)
+        z = self.Encode(x)
         
-        return {'output': X}
+        return {'output': z}
 
     def decode(self, req):
-        X = np.array([0,0])
-
+        z = np.array(req.input)
+        x = self.Decode(z)
+        x = self.denormalize(x)
         
-        return {'output': X}
-
+        return {'output': x}
 
         
 if __name__ == '__main__':

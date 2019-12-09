@@ -5,7 +5,7 @@ import math
 import numpy as np
 import pickle
 
-class autoencoder():
+class Autoencoder(object):
     H = [12, 200, 200, 6]
     model = '/home/avishai/catkin_ws/src/ckc_ml_planner/autoencoder_projector/model/'
 
@@ -50,18 +50,18 @@ class autoencoder():
 
     def Encode(self, x):
         z = self.encoder_obj(np.array([x]))
-        return z
+        return z.numpy()[0]
 
     def Decode(self, z):
-        x = self.decoder_obj(z)
-        return x
+        x = self.decoder_obj(z.reshape(1,-1))
+        return x.numpy()[0]
 
     def sample_z(self):
         z = np.random.random(size=(1,6)) * (self.z_max - self.z_min) + self.z_min
         return z
 
 
-# D = autoencoder()
+# D = Autoencoder()
 
 # x = np.array([0.34364245, 0.6669798 , 0.11252582, 0.66930337, 0.79562356,
 #        0.4259124 , 0.12515756, 0.25166184, 0.41806601, 0.31983298,
