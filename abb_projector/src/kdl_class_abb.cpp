@@ -1,4 +1,4 @@
-#include "kdl_class.h"
+#include "kdl_class_abb.h"
 
 // Constructor for the robots
 kdl::kdl(double D, double rod_L) {

@@ -11,7 +11,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <string.h>
-#include "kdl_class.h"
+#include "kdl_class_abb.h"
 #include "abb_projector/project_srv.h"
 #include "abb_projector/sample_srv.h"
 

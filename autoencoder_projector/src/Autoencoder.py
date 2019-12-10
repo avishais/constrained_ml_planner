@@ -42,6 +42,8 @@ class Autoencoder(object):
         with open(self.model + 'z_bounds.obj', 'rb') as f:
             self.z_min, self.z_max = pickle.load(f)
 
+        print self.z_min, self.z_max
+
     def normalize(self, X):
         return (X-self.x_min)/(self.x_max-self.x_min)
 

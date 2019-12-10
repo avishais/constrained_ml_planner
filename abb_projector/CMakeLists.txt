@@ -59,9 +59,16 @@ link_directories(/usr/local/include
 /home/avishai/Documents/eigen
 )
 
-add_executable(abb_projector src/projector_node.cpp src/kdl_class.cpp src/projector.cpp)
+add_executable(abb_projector src/projector_node.cpp src/kdl_class_abb.cpp src/projector.cpp)
+add_executable(test src/test.cpp src/kdl_class_abb.cpp)
 
 target_link_libraries(abb_projector
+  ${catkin_LIBRARIES}
+  orocos-kdl
+  /home/avishai/Documents/eigen
+)
+
+target_link_libraries(test
   ${catkin_LIBRARIES}
   orocos-kdl
   /home/avishai/Documents/eigen

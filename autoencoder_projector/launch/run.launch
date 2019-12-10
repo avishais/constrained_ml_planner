@@ -1,0 +1,6 @@
+<launch>
+
+  <node pkg="autoencoder_projector" name="autoencoder_projector" type="auto_proj.py" output="screen"/>
+  <node pkg="abb_projector" name="abb_projector" type="abb_projector" output="screen"/>
+
+</launch>

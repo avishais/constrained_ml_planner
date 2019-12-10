@@ -1,5 +1,6 @@
 
 #include "projector.h"
+#include <chrono>
 // #include "std_msgs/Float64MultiArray.h"
 // #include "common_msgs_gl/SendDoubleArray.h"
 // #include "common_msgs_gl/GetDoubleArray.h"
@@ -16,19 +17,24 @@ ABB_projector::ABB_projector() : node_handle_("~"), kdl(ROBOTS_DISTANCE, ROD_LEN
 
 bool ABB_projector::callbackProject(abb_projector::project_srv::Request& req, abb_projector::project_srv::Response& res) {
     State q = req.input;
-    printVector(q);
+    // printVector(q);
+    auto start = chrono::steady_clock::now();
     
-    if (!GD(q))
+    if (!GD(q)) {
         return false;
+    }
 
+    auto end = chrono::steady_clock::now();
+    res.time = chrono::duration_cast<chrono::microseconds>(end - start).count();
     res.output = get_GD_result();
+
     return true;
 }
 
 bool ABB_projector::callbackSample(abb_projector::sample_srv::Request& req, abb_projector::sample_srv::Response& res) {
     State q = sample_q();
-    for (int j = 0; j < q.size(); j++)
-        cout << q[j] << " ";
+    // for (int j = 0; j < q.size(); j++)
+    //     cout << q[j] << " ";
     res.output = q;
 
     return true;
